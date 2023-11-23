@@ -1,0 +1,7 @@
+.idea
+packages
+Releases
+**/bin
+**/obj
+**/GameDirectory.targets
+ShipLobby.sln.DotSettings.user
