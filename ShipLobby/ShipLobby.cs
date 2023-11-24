@@ -10,7 +10,7 @@ namespace ShipLobby
     {
         public const string GUID = "com.github.tinyhoot.ShipLobby";
         public const string NAME = "ShipLobby";
-        public const string VERSION = "0.1";
+        public const string VERSION = "1.0";
 
         internal static ShipLobby Instance;
         internal static ManualLogSource Log;
