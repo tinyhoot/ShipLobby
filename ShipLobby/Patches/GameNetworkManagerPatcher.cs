@@ -92,7 +92,7 @@ namespace ShipLobby.Patches
             // Nothing to do at all if this is not the host.
             if (!__instance.IsServer)
                 return;
-            ShipLobby.Instance.StartCoroutine(ReopenSteamLobbyCoroutine(__instance));
+            GameNetworkManager.Instance.StartCoroutine(ReopenSteamLobbyCoroutine(__instance));
         }
 
         private static IEnumerator ReopenSteamLobbyCoroutine(StartOfRound startOfRound)
