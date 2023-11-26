@@ -10,6 +10,7 @@
         <ThunderStoreItems Include="..\icon.png" />
         <ThunderStoreItems Include="..\manifest.json" />
         <ThunderStoreItems Include="..\README.md" />
+        <ThunderStoreItems Include="..\CHANGELOG.md" />
     </ItemGroup>
 
     <!-- Ensure the user (you!) has actually set everything up properly. -->
