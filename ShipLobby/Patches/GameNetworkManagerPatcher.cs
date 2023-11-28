@@ -100,6 +100,7 @@ namespace ShipLobby.Patches
             
             // The "getting fired" cutscene runs in a separate coroutine. Ensure we don't open the lobby until after
             // it is over.
+            yield return new WaitForSeconds(0.5f);
             yield return new WaitUntil(() => !__instance.firingPlayersCutsceneRunning);
             
             ShipLobby.Log.LogDebug("Reopening lobby, setting to joinable.");

@@ -1,6 +1,6 @@
 {
   "name": "ShipLobby",
-  "version_number": "1.0.1",
+  "version_number": "1.0.2",
   "website_url": "https://github.com/tinyhoot/ShipLobby",
   "description": "Let people join late whenever you're in orbit in between missions.",
   "dependencies": [
