@@ -87,18 +87,20 @@ namespace ShipLobby.Patches
         /// </summary>
         [HarmonyPostfix]
         [HarmonyPatch(typeof(StartOfRound), nameof(StartOfRound.EndOfGame))]
-        private static void ReopenSteamLobby(StartOfRound __instance)
+        private static IEnumerator ReopenSteamLobby(IEnumerator coroutine, StartOfRound __instance)
         {
+            // The method we're patching here is a coroutine. Fully exhaust it before adding our code.
+            while (coroutine.MoveNext())
+                yield return coroutine.Current;
+            // At this point all players should have been revived and the stats screen should have been shown.
+            
             // Nothing to do at all if this is not the host.
             if (!__instance.IsServer)
-                return;
-            GameNetworkManager.Instance.StartCoroutine(ReopenSteamLobbyCoroutine(__instance));
-        }
-
-        private static IEnumerator ReopenSteamLobbyCoroutine(StartOfRound startOfRound)
-        {
-            // Ensure the lobby does not get opened until after any "getting fired" cutscene.
-            yield return new WaitUntil(() => !startOfRound.firingPlayersCutsceneRunning);
+                yield break;
+            
+            // The "getting fired" cutscene runs in a separate coroutine. Ensure we don't open the lobby until after
+            // it is over.
+            yield return new WaitUntil(() => !__instance.firingPlayersCutsceneRunning);
             
             ShipLobby.Log.LogDebug("Reopening lobby, setting to joinable.");
             GameNetworkManager manager = GameNetworkManager.Instance;
@@ -110,18 +112,6 @@ namespace ShipLobby.Patches
             if (_quickMenuManager == null)
                 _quickMenuManager = Object.FindObjectOfType<QuickMenuManager>();
             _quickMenuManager.inviteFriendsTextAlpha.alpha = 1f;
-
-            // var lobbyTask = SteamMatchmaking.CreateLobbyAsync(4);
-            // Plugin.Log.LogDebug("Requested lobby creation from steam, waiting...");
-            // yield return new WaitUntil(() => lobbyTask.IsCompleted);
-            // Plugin.Log.LogDebug($"Lobby creation wait complete. Result: {lobbyTask.Result}");
-            // if (lobbyTask.Result == null)
-            // {
-            //     Plugin.Log.LogDebug("Failed to create Steam lobby!");
-            //     yield break;
-            // }
-            //
-            // manager.gameHasStarted = false;
         }
     }
 }
