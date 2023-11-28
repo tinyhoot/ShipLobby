@@ -52,7 +52,7 @@ namespace ShipLobby.Patches
         private static void FixFriendInviteButton()
         {
             // Only do this if the game isn't doing it by itself already.
-            if (GameNetworkManager.Instance.gameHasStarted)
+            if (GameNetworkManager.Instance.gameHasStarted && StartOfRound.Instance.inShipPhase)
                 GameNetworkManager.Instance.InviteFriendsUI();
         }
 
